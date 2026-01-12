@@ -1,0 +1,11 @@
+---
+name: Notify Lab ML on PR
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  notify:
+    uses: smkwlab/.github/.github/workflows/notify-ml-on-pr.yml@main
+    secrets: inherit

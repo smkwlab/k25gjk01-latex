@@ -1,0 +1,14 @@
+---
+name: Build and Release PDF
+
+on:
+  pull_request_target:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    uses: smkwlab/.github/.github/workflows/latex-build.yml@main
+    with:
+      files: "main, appendix, slide, report"
