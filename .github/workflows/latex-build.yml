@@ -11,4 +11,4 @@ jobs:
   build:
     uses: smkwlab/.github/.github/workflows/latex-build.yml@main
     with:
-      files: "main, appendix, slide, report"
+      files: "main, appendix, slide, report, seminor-report"

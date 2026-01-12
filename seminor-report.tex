@@ -1,0 +1,40 @@
+\documentclass[a4paper,12pt]{ujarticle}
+\usepackage[top=25mm,bottom=25mm,left=25mm,right=25mm]{geometry}
+\pagestyle{empty}
+\usepackage{otf}
+
+\renewcommand{\author}[1]{\def\author{#1}}
+\renewcommand{\title}[1]{\def\title{#1}}
+\newcommand{\supervisor}[1]{\def\supervisor{#1}}
+
+\newcommand{\makeheader}{
+\noindent 情報科学研究科「情報科学演習Ⅰ」報告書
+\vskip 15mm
+\begin{center}
+  \title
+\end{center}
+
+\vskip 15mm
+\hfill
+\begin{minipage}{0.6\linewidth}
+\raggedleft
+\author\\
+（研究指導教員 \supervisor）
+\end{minipage}
+\vskip 15mm
+}
+
+\newcommand{\maketailer}{} 
+
+\newenvironment{rsabst}{\makeheader}{\maketailer}
+
+\begin{document}
+\title{title}
+\author{25GJK01 入木田 瞬}
+\supervisor{下川 俊彦 教授}
+
+\begin{rsabst}
+aaaa
+
+\end{rsabst}
+\end{document}
