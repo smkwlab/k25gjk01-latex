@@ -1,7 +1,8 @@
 \documentclass[a4paper,12pt]{ujarticle}
 \usepackage[top=25mm,bottom=25mm,left=25mm,right=25mm]{geometry}
-\pagestyle{empty}
+\pagestyle{plain}
 \usepackage{otf}
+\usepackage{url}
 
 \renewcommand{\author}[1]{\def\author{#1}}
 \renewcommand{\title}[1]{\def\title{#1}}
@@ -29,12 +30,59 @@
 \newenvironment{rsabst}{\makeheader}{\maketailer}
 
 \begin{document}
-\title{title}
+\title{ネットワーク監視における監視情報統合アーキテクチャの提案}
 \author{25GJK01 入木田 瞬}
 \supervisor{下川 俊彦 教授}
 
 \begin{rsabst}
-aaaa
+本研究は、ネットワーク運用において分散して管理されている監視情報を統合し、障害対応の迅速化と原因特定の高度化を実現するための監視情報統合アーキテクチャを提案するものである。
+ネットワークは社会インフラとして不可欠であり、安定運用と通信品質の維持が強く求められている。
+従来の監視は、SNMP\cite{rfc1157}などを用いて機器の状態を把握するインフラ監視と通信遅延やスループットを測定する品質監視に大別されるが、これらは独立したシステムとして運用されることが多く、アラートやメトリクスなどが分散して管理されてきた。
+その結果、障害発生時には情報の突き合わせに時間がかかり、原因特定や影響範囲の把握が遅れるという課題があった。
 
+また、監視データの解釈や調査の優先順位付け（トリアージ）は、経験豊富な運用者の暗黙知に大きく依存しており、新規運用者が同様の判断をすることは容易でない。
+さらに、固定閾値によるアラート方式はトラフィック変動の大きい環境では誤検知や検知漏れを引き起こしやすく、アラート過多による運用負荷の増大も問題となっている。
+
+こうした課題に対し、本研究では、複数の監視システムから得られるデータとアラートを共通形式で集約し、LLM（大規模言語モデル）がそれらに直接アクセスして解析・支援をする統合アーキテクチャを提案する。
+具体的には、Zabbix\cite{Zabbix}、Prometheus\cite{Prometheus}、SINDAN\cite{SINDAN}などの監視システムからのアラートを一元的にデータベースへ収集し、LLMがMCP（Model Context Protocol）を用いてメトリクスや過去の障害履歴を参照しながら、重要度判定や原因推定をする構成である。
+これにより、人間の運用者が行ってきた状況把握、トリアージ、追加調査、原因推定というプロセスを、段階的に自動化・支援することを目指している。
+
+提案手法の実現可能性を検証するため、LLMによるアラート重要度分類機能のプロトタイプを実装した。
+FastAPI上に構築したWeb APIに対してアラートメッセージを送信すると、LLMがその内容を解釈し、info、warning、criticalの3段階で重要度を自動分類する仕組みである。
+実験では、APがダウンしたといった致命的事象にはcritical、CPU使用率上昇にはwarning、軽微な状態通知にはinfoが付与され、文脈に基づく妥当な判定が行われることを確認できた。
+
+今後は、複数の監視システムのデータ統合、過去障害データの体系化、運用者からのフィードバックを反映する学習機構の構築などを進め、実ネットワーク環境での有効性評価をすることが課題とされている。
+また、大学キャンパスネットワークや大規模イベントネットワークへの適用を通じて、障害対応時間の短縮や運用負荷軽減といった定量的効果を検証することが重要である。
+
+\begin{thebibliography}{99}
+
+    \bibitem{rfc1157} 
+    J. Case, M. Fedor, M. Schoffstall, and J. Davin,
+    RFC1157: Simple Network Management Protocol (SNMP), 1990.
+
+    % \bibitem{kitaguchi2014raspberry}
+    % 北口善明，石原知洋，高嶋健人，田川真樹，田中晋太朗，
+    % Raspberry Pi を用いた無線ネットワーク状態評価手法の提案，
+    % 情報処理学会研究報告 IoT（インターネットと運用技術）,
+    % vol.~2014, no.~8, pp.~1--6, 2014.
+
+    % \bibitem{ShowNetAI2025}
+    % 生成AIによるShowNetの構築運用支援, 
+    % \url{https://speakerdeck.com/shownet/swonet-dot-conf-2025-sheng-cheng-ainiyorushownetnogou-zhu-yun-yong-zhi-yuan}, 
+    % (accessed 2025-11-19).
+
+    \bibitem{Zabbix}
+    Zabbix, 
+    \url{https://www.zabbix.com/jp/}
+
+    \bibitem{Prometheus}
+    Prometheus,
+    \url{https://prometheus.io/}
+
+    \bibitem{SINDAN}
+    SINDAN Project,
+    \url{https://www.sindan-net.com}
+
+\end{thebibliography}
 \end{rsabst}
 \end{document}
